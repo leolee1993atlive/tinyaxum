@@ -9,7 +9,7 @@
   import { LoaderCircle, LogIn } from '@lucide/svelte'
   import { toast } from 'svelte-sonner'
 
-  let { class: className = '', redirectTo = '/dashboard' } = $props()
+  let { class: className = '', redirectTo = '/users' } = $props()
 
   const auth = useAuth()
 

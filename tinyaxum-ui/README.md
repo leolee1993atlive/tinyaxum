@@ -4,16 +4,16 @@ hdata-analysis 平台的 Web 前端:数据源管理、传输任务、SQL 查询(
 
 ## 技术栈
 
-| 类别 | 选型 |
-|------|------|
-| 框架 | [SvelteKit](https://kit.svelte.dev) 2 · [Svelte](https://svelte.dev) 5(runes:`$state` / `$props` / `$bindable`) |
-| 语言 | TypeScript(strict) |
-| 样式 | Tailwind CSS v4 · shadcn-svelte(bits-ui) |
-| SQL 编辑器 | CodeMirror 6(`@codemirror/lang-sql`、lint、one-dark) |
-| 图表 | D3 全家桶 · layerchart |
-| 表格 | `@tanstack/table-core`(服务端分页/排序) |
-| 其他 | zod 校验 · sql-formatter · marked + DOMPurify(MD 渲染) |
-| 构建 | Vite 7 · `@sveltejs/adapter-static`(SPA,`index.html` fallback) |
+| 类别       | 选型                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------------------- |
+| 框架       | [SvelteKit](https://kit.svelte.dev) 2 · [Svelte](https://svelte.dev) 5(runes:`$state` / `$props` / `$bindable`) |
+| 语言       | TypeScript(strict)                                                                                              |
+| 样式       | Tailwind CSS v4 · shadcn-svelte(bits-ui)                                                                        |
+| SQL 编辑器 | CodeMirror 6(`@codemirror/lang-sql`、lint、one-dark)                                                            |
+| 图表       | D3 全家桶 · layerchart                                                                                          |
+| 表格       | `@tanstack/table-core`(服务端分页/排序)                                                                         |
+| 其他       | zod 校验 · sql-formatter · marked + DOMPurify(MD 渲染)                                                          |
+| 构建       | Vite 7 · `@sveltejs/adapter-static`(SPA,`index.html` fallback)                                                  |
 
 ## 快速开始
 
@@ -26,15 +26,15 @@ pnpm dev          # http://localhost:5173,/api 代理到 http://localhost:3000
 
 ## 脚本
 
-| 命令 | 说明 |
-|------|------|
-| `pnpm dev` | 开发服务器(Vite,`/api` 代理到 localhost:3000) |
-| `pnpm build` | 生产构建(adapter-static,SPA fallback `index.html`) |
-| `pnpm preview` | 预览生产构建 |
-| `pnpm check` | svelte-check 类型检查(strict TS) |
-| `pnpm check:watch` | 类型检查 watch 模式 |
-| `pnpm format` / `pnpm format:check` | Prettier 写入 / 检查 |
-| `pnpm lint` | Prettier 检查(唯一 linter,无 ESLint) |
+| 命令                                | 说明                                               |
+| ----------------------------------- | -------------------------------------------------- |
+| `pnpm dev`                          | 开发服务器(Vite,`/api` 代理到 localhost:3000)      |
+| `pnpm build`                        | 生产构建(adapter-static,SPA fallback `index.html`) |
+| `pnpm preview`                      | 预览生产构建                                       |
+| `pnpm check`                        | svelte-check 类型检查(strict TS)                   |
+| `pnpm check:watch`                  | 类型检查 watch 模式                                |
+| `pnpm format` / `pnpm format:check` | Prettier 写入 / 检查                               |
+| `pnpm lint`                         | Prettier 检查(唯一 linter,无 ESLint)               |
 
 ## 项目结构
 

@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@source '../node_modules/layerchart/dist';
 @import 'tw-animate-css';
 @import './../lib/themes/default.css';
 @import './../lib/themes/de-swiss-design.css';

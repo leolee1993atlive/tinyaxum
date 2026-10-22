@@ -16,8 +16,8 @@
         <Command class="size-4" />
       </div>
       <div class="grid flex-1 text-start text-sm leading-tight">
-        <span class="truncate font-semibold">HData Analysis</span>
-        <span class="truncate text-xs">Vite + Svelte</span>
+        <span class="truncate font-semibold">TinyAxum</span>
+        <span class="truncate text-xs">Axum + SvelteKit</span>
       </div>
     </SidebarMenuButton>
   </SidebarMenuItem>
