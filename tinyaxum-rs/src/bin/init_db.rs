@@ -40,7 +40,7 @@ fn build_dsn(
             let raw = settings.get_string("db.db_name")?;
             let path = raw.strip_prefix("file:").unwrap_or(&raw);
             if path == ":memory:" {
-                ":memory:".to_string()
+                "sqlite::memory:".to_string()
             } else {
                 if let Some(parent) = Path::new(path).parent()
                     && !parent.as_os_str().is_empty()

@@ -31,15 +31,26 @@ pub fn build_db_dsn(db: &DbConfig) -> anyhow::Result<String> {
             db.db_name,
         ),
         "sqlite" => {
-            // SQLite 使用 db.db_name 作为数据库路径，
-            // 支持 "data.db"、"file:data.db"、":memory:" 等形式
+            // sea-orm 2.0 走 sqlx 的 URL 解析，需要 `sqlite:` 前缀。
+            // `mode=rwc` 允许连接时自动创建数据库文件。
             let path = db.db_name.trim();
             if path.is_empty() {
-                "file:data.db".to_string()
-            } else if path == ":memory:" || path.starts_with("file:") {
+                "sqlite://data.db?mode=rwc".to_string()
+            } else if path == ":memory:" {
+                "sqlite::memory:".to_string()
+            } else if let Some(rest) = path.strip_prefix("file:") {
+                if rest == ":memory:" {
+                    "sqlite::memory:".to_string()
+                } else {
+                    format!(
+                        "sqlite://{}?mode=rwc",
+                        rest.trim_start_matches("//")
+                    )
+                }
+            } else if path.starts_with("sqlite:") {
                 path.to_string()
             } else {
-                format!("file:{}", path)
+                format!("sqlite://{}?mode=rwc", path)
             }
         }
         unsupported => {
@@ -111,16 +122,16 @@ mod tests {
     fn sqlite_dsn_variants() {
         let mut c = db("sqlite", "");
         c.db_name = "data.db".to_string();
-        assert_eq!(build_db_dsn(&c).unwrap(), "file:data.db");
+        assert_eq!(build_db_dsn(&c).unwrap(), "sqlite://data.db?mode=rwc");
 
         c.db_name = ":memory:".to_string();
-        assert_eq!(build_db_dsn(&c).unwrap(), ":memory:");
+        assert_eq!(build_db_dsn(&c).unwrap(), "sqlite::memory:");
 
         c.db_name = "file:other.db".to_string();
-        assert_eq!(build_db_dsn(&c).unwrap(), "file:other.db");
+        assert_eq!(build_db_dsn(&c).unwrap(), "sqlite://other.db?mode=rwc");
 
         c.db_name = "".to_string();
-        assert_eq!(build_db_dsn(&c).unwrap(), "file:data.db");
+        assert_eq!(build_db_dsn(&c).unwrap(), "sqlite://data.db?mode=rwc");
     }
 
     #[test]
