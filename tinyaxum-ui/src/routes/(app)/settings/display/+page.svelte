@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ContentSection from '$lib/components/settings/ContentSection.svelte'
+  import ContentSection from '#lib/components/settings/ContentSection.svelte'
 </script>
 
 <ContentSection title="显示" desc="开启或关闭项目以控制应用中显示的内容。">

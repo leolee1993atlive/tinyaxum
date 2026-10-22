@@ -1,15 +1,16 @@
-<script lang="ts" generics="TData">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as Select from '$lib/components/ui/select/index.js'
+<script lang="ts" generics="TData extends RowData">
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as Select from '#lib/components/ui/select/index.js'
   import {
     ChevronLeft,
     ChevronRight,
     ChevronsLeft,
     ChevronsRight,
   } from '@lucide/svelte'
-  import type { Table } from '@tanstack/table-core'
+  import type { RowData } from '@tanstack/table-core'
+  import type { AppTable } from '#lib/table-features.js'
 
-  let { table }: { table: Table<TData> } = $props()
+  let { table }: { table: AppTable<TData> } = $props()
 
   const selectedRowsCount = $derived(
     table.getFilteredSelectedRowModel().rows.length
@@ -19,8 +20,8 @@
       ? table.getRowCount()
       : table.getFilteredRowModel().rows.length
   )
-  const pageSize = $derived(table.getState().pagination.pageSize)
-  const pageIndex = $derived(table.getState().pagination.pageIndex)
+  const pageSize = $derived(table.atoms.pagination.get().pageSize)
+  const pageIndex = $derived(table.atoms.pagination.get().pageIndex)
   const pageCount = $derived(table.getPageCount())
 </script>
 

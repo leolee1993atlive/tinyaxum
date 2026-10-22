@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { sidebarData } from '$lib/components/layout/data/sidebar-data.js'
-  import * as Command from '$lib/components/ui/command/index.js'
-  import { ScrollArea } from '$lib/components/ui/scroll-area/index.js'
-  import { useSearch } from '$lib/context/search.svelte.js'
-  import { useTheme } from '$lib/context/theme.svelte.js'
-  import { COLOR_THEMES } from '$lib/themes/registry.js'
+  import { sidebarData } from '#lib/components/layout/data/sidebar-data.js'
+  import * as Command from '#lib/components/ui/command/index.js'
+  import { ScrollArea } from '#lib/components/ui/scroll-area/index.js'
+  import { useSearch } from '#lib/context/search.svelte.js'
+  import { useTheme } from '#lib/context/theme.svelte.js'
+  import { COLOR_THEMES } from '#lib/themes/registry.js'
   import { ChevronRight, Laptop, Moon, Sun } from '@lucide/svelte'
 
   const search = useSearch()

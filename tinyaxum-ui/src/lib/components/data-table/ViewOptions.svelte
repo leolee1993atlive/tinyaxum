@@ -1,10 +1,11 @@
-<script lang="ts" generics="TData">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js'
+<script lang="ts" generics="TData extends RowData">
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js'
   import { Settings2 } from '@lucide/svelte'
-  import type { Table } from '@tanstack/table-core'
+  import type { RowData } from '@tanstack/table-core'
+  import type { AppTable } from '#lib/table-features.js'
 
-  let { table }: { table: Table<TData> } = $props()
+  let { table }: { table: AppTable<TData> } = $props()
 
   const columns = $derived(
     table

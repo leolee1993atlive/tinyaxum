@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { Input } from '$lib/components/ui/input/index.js'
-  import { cn, type WithElementRef } from '$lib/utils.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { Input } from '#lib/components/ui/input/index.js'
+  import { cn, type WithElementRef } from '#lib/utils.js'
   import { Eye, EyeOff } from '@lucide/svelte'
 
   type Props = WithElementRef<Omit<HTMLInputAttributes, 'type'>>

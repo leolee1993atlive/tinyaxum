@@ -25,9 +25,9 @@
     "^svelte$",
     "^svelte/(.*)$",
     "^@sveltejs/(.*)$",
-    "^$lib/components/ui/(.*)$",
-    "^$lib/components/(.*)$",
-    "^$lib/(.*)$",
+    "^#lib/components/ui/(.*)$",
+    "^#lib/components/(.*)$",
+    "^#lib/(.*)$",
     "<THIRD_PARTY_MODULES>",
     "^[./]"
   ]

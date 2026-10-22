@@ -1,4 +1,4 @@
-import { connectionStore } from '$lib/stores/connection.js'
+import { connectionStore } from '#lib/stores/connection.js'
 import { toast } from 'svelte-sonner'
 import type { ApiResponse, PaginationParams, LoginResponse } from './types'
 

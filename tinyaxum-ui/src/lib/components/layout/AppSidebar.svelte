@@ -1,6 +1,6 @@
 <script lang="ts">
-  import * as Sidebar from '$lib/components/ui/sidebar/index.js'
-  import { useLayout } from '$lib/context/layout.svelte.js'
+  import * as Sidebar from '#lib/components/ui/sidebar/index.js'
+  import { useLayout } from '#lib/context/layout.svelte.js'
   import NavGroup from './NavGroup.svelte'
   import { sidebarData } from './data/sidebar-data'
 

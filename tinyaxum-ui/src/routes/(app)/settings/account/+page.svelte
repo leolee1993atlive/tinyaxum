@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { isApiClientNotifiedError } from '$lib/api/client.js'
-  import { usersApi } from '$lib/api/users.js'
-  import PasswordInput from '$lib/components/PasswordInput.svelte'
-  import ContentSection from '$lib/components/settings/ContentSection.svelte'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as Field from '$lib/components/ui/field/index.js'
-  import { useAuth } from '$lib/context/auth.svelte.js'
+  import { isApiClientNotifiedError } from '#lib/api/client.js'
+  import { usersApi } from '#lib/api/users.js'
+  import PasswordInput from '#lib/components/PasswordInput.svelte'
+  import ContentSection from '#lib/components/settings/ContentSection.svelte'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as Field from '#lib/components/ui/field/index.js'
+  import { useAuth } from '#lib/context/auth.svelte.js'
   import { LoaderCircle, CheckCircle2 } from '@lucide/svelte'
   import { toast } from 'svelte-sonner'
 

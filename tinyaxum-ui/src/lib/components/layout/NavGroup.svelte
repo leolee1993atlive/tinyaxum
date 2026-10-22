@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from '$app/state'
-  import { Badge } from '$lib/components/ui/badge/index.js'
+  import { Badge } from '#lib/components/ui/badge/index.js'
   import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-  } from '$lib/components/ui/collapsible/index.js'
+  } from '#lib/components/ui/collapsible/index.js'
   import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +13,7 @@
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-  } from '$lib/components/ui/dropdown-menu/index.js'
+  } from '#lib/components/ui/dropdown-menu/index.js'
   import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -24,7 +24,7 @@
     SidebarMenuSubButton,
     SidebarMenuSubItem,
     useSidebar,
-  } from '$lib/components/ui/sidebar/index.js'
+  } from '#lib/components/ui/sidebar/index.js'
   import { ChevronRight } from '@lucide/svelte'
   import type {
     NavCollapsible,

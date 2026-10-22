@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use rand::{Rng, distr::Alphanumeric};
+use rand::{RngExt, distr::Alphanumeric};
 use toml_edit::{DocumentMut, value};
 
 use crate::config::answers::Answers;

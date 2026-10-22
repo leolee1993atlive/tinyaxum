@@ -1,4 +1,4 @@
-import type { User } from '$lib/data/users/schema.js'
+import type { User } from '#lib/data/users/schema.js'
 import { apiClient } from './client'
 import {
   toPageQueryRecord,

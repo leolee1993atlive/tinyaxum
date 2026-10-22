@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { cn } from '$lib/utils.js'
+  import * as AlertDialog from '#lib/components/ui/alert-dialog/index.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { cn } from '#lib/utils.js'
   import { LoaderCircle } from '@lucide/svelte'
 
   interface Props {

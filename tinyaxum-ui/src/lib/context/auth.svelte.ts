@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte'
-import { authApi } from '$lib/api/auth.js'
+import { authApi } from '#lib/api/auth.js'
 import { toast } from 'svelte-sonner'
 
 export interface User {

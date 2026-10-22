@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte'
-import { getCookie, setCookie, removeCookie } from '$lib/cookies.js'
+import { getCookie, setCookie, removeCookie } from '#lib/cookies.js'
 import {
   COLOR_THEMES,
   COLOR_THEME_COOKIE_NAME,
@@ -7,7 +7,7 @@ import {
   getColorTheme,
   isValidColorTheme,
   type ColorThemeName,
-} from '$lib/themes/registry.js'
+} from '#lib/themes/registry.js'
 
 export type Theme = 'dark' | 'light' | 'system'
 export type ResolvedTheme = Exclude<Theme, 'system'>

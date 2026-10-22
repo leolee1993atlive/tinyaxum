@@ -57,7 +57,9 @@ export function useTableUrlState(params: UseTableUrlStateParams) {
   function updateUrl(
     patch: Record<string, string | string[] | number | undefined>
   ) {
-    const newSearchParams = new URLSearchParams(page.url.searchParams)
+    const newSearchParams = new URLSearchParams(
+      page.url.searchParams.toString()
+    )
     for (const [key, value] of Object.entries(patch)) {
       if (
         value === undefined ||
@@ -73,9 +75,8 @@ export function useTableUrlState(params: UseTableUrlStateParams) {
       }
     }
     goto(`?${newSearchParams.toString()}`, {
-      replaceState: true,
-      keepFocus: true,
-      noScroll: true,
+      replace: true,
+      reset: false,
     })
   }
 

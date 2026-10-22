@@ -4,9 +4,9 @@
     Avatar,
     AvatarFallback,
     AvatarImage,
-  } from '$lib/components/ui/avatar/index.js'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js'
-  import { useAuth } from '$lib/context/auth.svelte.js'
+  } from '#lib/components/ui/avatar/index.js'
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js'
+  import { useAuth } from '#lib/context/auth.svelte.js'
   import { LogOut, User } from '@lucide/svelte'
 
   const auth = useAuth()

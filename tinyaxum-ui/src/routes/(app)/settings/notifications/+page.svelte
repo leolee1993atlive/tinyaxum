@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ContentSection from '$lib/components/settings/ContentSection.svelte'
+  import ContentSection from '#lib/components/settings/ContentSection.svelte'
 </script>
 
 <ContentSection title="通知" desc="配置您接收通知的方式。">

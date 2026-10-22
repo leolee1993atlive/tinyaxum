@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Separator } from '$lib/components/ui/separator/index.js'
+  import { Separator } from '#lib/components/ui/separator/index.js'
 
   let {
     title,

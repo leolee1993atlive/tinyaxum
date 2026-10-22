@@ -1,10 +1,10 @@
-import { isApiClientNotifiedError } from '$lib/api/client.js'
-import { usersApi } from '$lib/api/users.js'
+import { isApiClientNotifiedError } from '#lib/api/client.js'
+import { usersApi } from '#lib/api/users.js'
 import {
   CrudPageState,
   createCrudContext,
-} from '$lib/composables/crud-page-state.svelte.js'
-import type { User } from '$lib/data/users/schema.js'
+} from '#lib/composables/crud-page-state.svelte.js'
+import type { User } from '#lib/data/users/schema.js'
 
 export type UserDialogType = 'create' | 'update' | 'delete'
 

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import PasswordInput from '$lib/components/PasswordInput.svelte'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as Field from '$lib/components/ui/field/index.js'
-  import { Input } from '$lib/components/ui/input/index.js'
-  import { useAuth } from '$lib/context/auth.svelte.js'
-  import { cn } from '$lib/utils.js'
+  import PasswordInput from '#lib/components/PasswordInput.svelte'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as Field from '#lib/components/ui/field/index.js'
+  import { Input } from '#lib/components/ui/input/index.js'
+  import { useAuth } from '#lib/context/auth.svelte.js'
+  import { cn } from '#lib/utils.js'
   import { LoaderCircle, LogIn } from '@lucide/svelte'
   import { toast } from 'svelte-sonner'
 

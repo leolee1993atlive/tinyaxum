@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CommandMenu from '$lib/components/CommandMenu.svelte'
+  import CommandMenu from '#lib/components/CommandMenu.svelte'
   import { setSearchContext } from './search.svelte.js'
 
   let { children } = $props()

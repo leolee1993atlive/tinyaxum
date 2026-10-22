@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte'
-import { getCookie, setCookie, removeCookie } from '$lib/cookies.js'
+import { getCookie, setCookie, removeCookie } from '#lib/cookies.js'
 
 export type LayoutCollapsible = 'offcanvas' | 'icon' | 'none'
 export type LayoutVariant = 'inset' | 'sidebar' | 'floating'

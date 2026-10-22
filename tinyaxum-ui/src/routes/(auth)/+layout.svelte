@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import Logo from '$lib/components/Logo.svelte'
-  import { useAuth } from '$lib/context/auth.svelte.js'
+  import Logo from '#lib/components/Logo.svelte'
+  import { useAuth } from '#lib/context/auth.svelte.js'
 
   let { children } = $props()
 

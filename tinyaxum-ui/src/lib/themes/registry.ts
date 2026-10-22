@@ -12,19 +12,19 @@ export const COLOR_THEMES: readonly ColorTheme[] = [
     name: 'default',
     label: '默认',
     cssClass: 'theme-default',
-    cssPath: '$lib/themes/default.css',
+    cssPath: '#lib/themes/default.css',
   },
   {
     name: 'de-swiss-design',
     label: 'DE Swiss Design',
     cssClass: 'theme-de-swiss-design',
-    cssPath: '$lib/themes/de-swiss-design.css',
+    cssPath: '#lib/themes/de-swiss-design.css',
   },
   {
     name: 'ibm-carbon',
     label: 'IBM Carbon',
     cssClass: 'theme-ibm-carbon',
-    cssPath: '$lib/themes/ibm-carbon.css',
+    cssPath: '#lib/themes/ibm-carbon.css',
   },
 ]
 

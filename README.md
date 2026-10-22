@@ -7,8 +7,8 @@
 ## 目录结构
 
 ```
-TinyAxum/
-├── tinyaxum-rs/     # Axum REST API 后端（Rust 2024 · sea-orm 2.0-rc）
+tinyaxum/
+├── tinyaxum-rs/     # Axum REST API 后端（Rust 2024 · sea-orm 2.0）
 ├── tinyaxum-ui/     # SvelteKit 前端（Svelte 5 · Tailwind v4 · shadcn-svelte）
 ├── docker/          # 后端运行时镜像与 compose 模板
 └── .gitignore

@@ -7,12 +7,12 @@ Monorepo 总览见[上级 README](../README.md)。
 
 | 类别 | 选型                                                                            |
 | ---- | ------------------------------------------------------------------------------- |
-| 框架 | [SvelteKit](https://kit.svelte.dev) 2 · [Svelte](https://svelte.dev) 5（runes） |
+| 框架 | [SvelteKit](https://kit.svelte.dev) 3 · [Svelte](https://svelte.dev) 5（runes） |
 | 语言 | TypeScript（strict）                                                            |
 | 样式 | Tailwind CSS v4 · shadcn-svelte（bits-ui）                                      |
 | 表格 | `@tanstack/table-core`（服务端分页/排序）                                       |
 | 校验 | zod                                                                             |
-| 构建 | Vite 7 · `@sveltejs/adapter-static`（SPA，`index.html` fallback）               |
+| 构建 | Vite 8 · `@sveltejs/adapter-static`（SPA，`index.html` fallback） |
 
 ## 快速开始
 
@@ -66,7 +66,7 @@ src/
 
 ## 工程约定
 
-- Svelte 5 runes 风格：组件用 `$props()` 解构，不用 `export let`；`$lib` 导入带 `.js` 后缀。
+- Svelte 5 runes 风格：组件用 `$props()` 解构，不用 `export let`；`#lib` 导入带 `.js` 后缀。
 - 列表页统一走 `useCrudTable`；表单新建/编辑用 `FormDrawer` 抽屉，删除确认用 `ConfirmDialog`。
 - 格式化只有 Prettier（无分号、单引号、2 空格、80 列）；提交前跑
   `pnpm format:check && pnpm check`。

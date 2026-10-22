@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Card from '$lib/components/ui/card/index.js'
+  import * as Card from '#lib/components/ui/card/index.js'
   import UserAuthForm from './components/UserAuthForm.svelte'
 
   let redirect = $state<string | undefined>(undefined)

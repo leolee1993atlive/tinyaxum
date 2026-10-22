@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { connectionStore } from '$lib/stores/connection.js'
+  import { connectionStore } from '#lib/stores/connection.js'
   import { AlertCircle, Wifi, WifiOff } from '@lucide/svelte'
 
   let showAlert = $derived($connectionStore.status === 'disconnected')

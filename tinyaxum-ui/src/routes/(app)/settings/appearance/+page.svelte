@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ContentSection from '$lib/components/settings/ContentSection.svelte'
-  import { useTheme } from '$lib/context/theme.svelte.js'
-  import { COLOR_THEMES } from '$lib/themes/registry.js'
+  import ContentSection from '#lib/components/settings/ContentSection.svelte'
+  import { useTheme } from '#lib/context/theme.svelte.js'
+  import { COLOR_THEMES } from '#lib/themes/registry.js'
 
   const theme = useTheme()
 </script>

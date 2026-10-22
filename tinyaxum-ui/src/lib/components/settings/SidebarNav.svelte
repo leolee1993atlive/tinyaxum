@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Component } from 'svelte'
   import { goto } from '$app/navigation'
-  import { page } from '$app/stores'
-  import { buttonVariants } from '$lib/components/ui/button/index.js'
-  import { ScrollArea } from '$lib/components/ui/scroll-area/index.js'
-  import { cn } from '$lib/utils.js'
+  import { page } from '$app/state'
+  import { buttonVariants } from '#lib/components/ui/button/index.js'
+  import { ScrollArea } from '#lib/components/ui/scroll-area/index.js'
+  import { cn } from '#lib/utils.js'
 
   interface NavItem {
     href: string
@@ -19,7 +19,7 @@
 
   let { items, class: className }: Props = $props()
 
-  let pathname = $derived($page.url.pathname)
+  let pathname = $derived(page.url.pathname)
 
   function handleSelect(value: string) {
     goto(value)

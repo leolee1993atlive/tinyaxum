@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { useSearch } from '$lib/context/search.svelte.js'
-  import { cn } from '$lib/utils.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { useSearch } from '#lib/context/search.svelte.js'
+  import { cn } from '#lib/utils.js'
   import { SearchIcon } from '@lucide/svelte'
 
   interface Props {

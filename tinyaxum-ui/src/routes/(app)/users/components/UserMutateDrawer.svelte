@@ -1,16 +1,16 @@
 <script lang="ts">
   import { untrack } from 'svelte'
-  import { isApiClientNotifiedError } from '$lib/api/client.js'
-  import { usersApi } from '$lib/api/users.js'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as Field from '$lib/components/ui/field/index.js'
-  import { Input } from '$lib/components/ui/input/index.js'
-  import * as Sheet from '$lib/components/ui/sheet/index.js'
+  import { isApiClientNotifiedError } from '#lib/api/client.js'
+  import { usersApi } from '#lib/api/users.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as Field from '#lib/components/ui/field/index.js'
+  import { Input } from '#lib/components/ui/input/index.js'
+  import * as Sheet from '#lib/components/ui/sheet/index.js'
   import type {
     User,
     UserCreateInput,
     UserUpdateInput,
-  } from '$lib/data/users/schema.js'
+  } from '#lib/data/users/schema.js'
   import { LoaderCircle } from '@lucide/svelte'
   import { toast } from 'svelte-sonner'
   import { z } from 'zod'

@@ -1,19 +1,20 @@
-<script lang="ts" generics="TData, TValue">
-  import { Badge } from '$lib/components/ui/badge/index.js'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as Command from '$lib/components/ui/command/index.js'
-  import * as Popover from '$lib/components/ui/popover/index.js'
-  import { Separator } from '$lib/components/ui/separator/index.js'
-  import { cn } from '$lib/utils.js'
+<script lang="ts" generics="TData extends RowData, TValue extends CellData">
+  import { Badge } from '#lib/components/ui/badge/index.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as Command from '#lib/components/ui/command/index.js'
+  import * as Popover from '#lib/components/ui/popover/index.js'
+  import { Separator } from '#lib/components/ui/separator/index.js'
+  import { cn } from '#lib/utils.js'
   import { Check, CirclePlus } from '@lucide/svelte'
-  import type { Column } from '@tanstack/table-core'
+  import type { CellData, Column, RowData } from '@tanstack/table-core'
+  import type { AppTableFeatures } from '#lib/table-features.js'
 
   let {
     column,
     title,
     options,
   }: {
-    column?: Column<TData, TValue>
+    column?: Column<AppTableFeatures, TData, TValue>
     title?: string
     options: {
       label: string

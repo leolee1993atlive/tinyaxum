@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { usersApi } from '$lib/api/users.js'
-  import ContentSection from '$lib/components/settings/ContentSection.svelte'
-  import type { User } from '$lib/data/users/schema.js'
+  import { usersApi } from '#lib/api/users.js'
+  import ContentSection from '#lib/components/settings/ContentSection.svelte'
+  import type { User } from '#lib/data/users/schema.js'
 
   let user = $state<User | null>(null)
   let username = $state('')

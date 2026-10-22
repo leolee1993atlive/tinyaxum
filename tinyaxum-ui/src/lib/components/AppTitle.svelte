@@ -3,7 +3,7 @@
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-  } from '$lib/components/ui/sidebar/index.js'
+  } from '#lib/components/ui/sidebar/index.js'
   import { Command } from '@lucide/svelte'
 </script>
 

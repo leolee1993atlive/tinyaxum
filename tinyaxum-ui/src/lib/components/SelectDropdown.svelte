@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js'
-  import { cn } from '$lib/utils.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js'
+  import { cn } from '#lib/utils.js'
   import { LoaderCircle, ChevronDown } from '@lucide/svelte'
 
   interface Props {

@@ -1,17 +1,18 @@
-<script lang="ts" generics="TData">
-  import { Badge } from '$lib/components/ui/badge/index.js'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { Separator } from '$lib/components/ui/separator/index.js'
-  import * as Tooltip from '$lib/components/ui/tooltip/index.js'
+<script lang="ts" generics="TData extends RowData">
+  import { Badge } from '#lib/components/ui/badge/index.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { Separator } from '#lib/components/ui/separator/index.js'
+  import * as Tooltip from '#lib/components/ui/tooltip/index.js'
   import { X } from '@lucide/svelte'
-  import type { Table } from '@tanstack/table-core'
+  import type { RowData } from '@tanstack/table-core'
+  import type { AppTable } from '#lib/table-features.js'
 
   let {
     table,
     entityName,
     children,
   }: {
-    table: Table<TData>
+    table: AppTable<TData>
     entityName: string
     children: import('svelte').Snippet
   } = $props()

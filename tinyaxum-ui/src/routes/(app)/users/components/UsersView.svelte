@@ -1,13 +1,14 @@
 <script lang="ts">
   import { untrack } from 'svelte'
-  import ConfirmDialog from '$lib/components/ConfirmDialog.svelte'
-  import { CrudTableShell } from '$lib/components/crud/index.js'
-  import Main from '$lib/components/layout/Main.svelte'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { useCrudTable } from '$lib/composables/use-crud-table.svelte.js'
-  import type { User } from '$lib/data/users/schema.js'
+  import ConfirmDialog from '#lib/components/ConfirmDialog.svelte'
+  import { CrudTableShell } from '#lib/components/crud/index.js'
+  import Main from '#lib/components/layout/Main.svelte'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { useCrudTable } from '#lib/composables/use-crud-table.svelte.js'
+  import type { User } from '#lib/data/users/schema.js'
   import { Pencil, Plus, Trash2 } from '@lucide/svelte'
   import type { ColumnDef } from '@tanstack/table-core'
+  import type { AppTableFeatures } from '#lib/table-features.js'
   import { toast } from 'svelte-sonner'
   import UserMutateDrawer from './UserMutateDrawer.svelte'
   import { useUsers } from './users-state.svelte'
@@ -37,7 +38,7 @@
     }
   }
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<AppTableFeatures, User>[] = [
     { accessorKey: 'username', header: '用户名' },
     { accessorKey: 'nickName', header: '昵称' },
     { accessorKey: 'email', header: '邮箱' },

@@ -1,15 +1,16 @@
-<script lang="ts" generics="TRow">
+<script lang="ts" generics="TRow extends RowData">
   import type { Snippet } from 'svelte'
-  import { Pagination as DataTablePagination } from '$lib/components/data-table/index.js'
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { Input } from '$lib/components/ui/input/index.js'
-  import * as Skeleton from '$lib/components/ui/skeleton/index.js'
-  import * as Table from '$lib/components/ui/table/index.js'
+  import { Pagination as DataTablePagination } from '#lib/components/data-table/index.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { Input } from '#lib/components/ui/input/index.js'
+  import * as Skeleton from '#lib/components/ui/skeleton/index.js'
+  import * as Table from '#lib/components/ui/table/index.js'
   import { RefreshCw, Search } from '@lucide/svelte'
-  import type { Table as TanstackTable } from '@tanstack/table-core'
+  import type { RowData } from '@tanstack/table-core'
+  import type { AppTable } from '#lib/table-features.js'
 
   type Props = {
-    table: TanstackTable<TRow>
+    table: AppTable<TRow>
     isLoading: boolean
     error: string | null
     columnCount: number

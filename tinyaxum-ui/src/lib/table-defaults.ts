@@ -1,27 +1,10 @@
-import {
-  createTable,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-} from '@tanstack/table-core'
+import { appTableFeatures } from '#lib/table-features.js'
+import { getInitialTableState } from '@tanstack/table-core'
 
 /**
- * Get the full default state for a TanStack table.
- * Needed because createTable's getState() returns options.state directly
- * without merging with initialState. Features like columnPinning access
- * getState().columnPinning.left directly, so the full state must be present.
+ * Full default state for the app's registered table features.
+ *
+ * v9 derives the state shape from the registered features, so this stays in
+ * sync automatically as features are added or removed.
  */
-const _t = createTable({
-  data: [],
-  columns: [],
-  state: {},
-  onStateChange: () => {},
-  getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
-  renderFallbackValue: null,
-})
-
-export const TABLE_DEFAULT_STATE = _t.initialState
+export const TABLE_DEFAULT_STATE = getInitialTableState(appTableFeatures)

@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Separator } from '$lib/components/ui/separator/index.js'
-  import { SidebarTrigger } from '$lib/components/ui/sidebar/index.js'
-  import { cn } from '$lib/utils.js'
+  import { Separator } from '#lib/components/ui/separator/index.js'
+  import { SidebarTrigger } from '#lib/components/ui/sidebar/index.js'
+  import { cn } from '#lib/utils.js'
 
   interface Props {
     children?: Snippet

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import ProfileDropdown from '$lib/components/ProfileDropdown.svelte'
-  import Search from '$lib/components/Search.svelte'
-  import Header from '$lib/components/layout/Header.svelte'
-  import Main from '$lib/components/layout/Main.svelte'
-  import SidebarNav from '$lib/components/settings/SidebarNav.svelte'
-  import { Separator } from '$lib/components/ui/separator/index.js'
+  import ProfileDropdown from '#lib/components/ProfileDropdown.svelte'
+  import Search from '#lib/components/Search.svelte'
+  import Header from '#lib/components/layout/Header.svelte'
+  import Main from '#lib/components/layout/Main.svelte'
+  import SidebarNav from '#lib/components/settings/SidebarNav.svelte'
+  import { Separator } from '#lib/components/ui/separator/index.js'
   import { UserCog, Wrench, Palette, Bell, Monitor } from '@lucide/svelte'
 
   const sidebarNavItems = [

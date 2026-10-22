@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js'
-  import { cn } from '$lib/utils.js'
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js'
+  import { cn } from '#lib/utils.js'
   import { Menu } from '@lucide/svelte'
 
   interface Link {
@@ -11,15 +11,13 @@
     disabled?: boolean
   }
 
-  let {
-    class: className,
-    links,
-    ...props
-  } = $props<{
+  type Props = {
     class?: string
     links: Link[]
     [key: string]: unknown
-  }>()
+  }
+
+  let { class: className, links, ...props }: Props = $props()
 </script>
 
 <div class="lg:hidden">

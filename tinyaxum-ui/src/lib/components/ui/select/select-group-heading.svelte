@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte'
-  import { cn } from '$lib/utils.js'
+  import { cn } from '#lib/utils.js'
   import { Select as SelectPrimitive } from 'bits-ui'
 
   let {

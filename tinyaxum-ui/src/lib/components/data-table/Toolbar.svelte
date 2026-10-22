@@ -1,8 +1,9 @@
-<script lang="ts" generics="TData">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import { Input } from '$lib/components/ui/input/index.js'
+<script lang="ts" generics="TData extends RowData">
+  import { Button } from '#lib/components/ui/button/index.js'
+  import { Input } from '#lib/components/ui/input/index.js'
   import { X } from '@lucide/svelte'
-  import type { Table } from '@tanstack/table-core'
+  import type { RowData } from '@tanstack/table-core'
+  import type { AppTable } from '#lib/table-features.js'
   import FacetedFilter from './FacetedFilter.svelte'
   import ViewOptions from './ViewOptions.svelte'
 
@@ -12,7 +13,7 @@
     searchKey,
     filters = [],
   }: {
-    table: Table<TData>
+    table: AppTable<TData>
     searchPlaceholder?: string
     searchKey?: string
     filters?: {
@@ -27,7 +28,7 @@
   } = $props()
 
   const isFiltered = $derived(
-    table.getState().columnFilters.length > 0 || table.getState().globalFilter
+    table.atoms.columnFilters.get().length > 0 || table.atoms.globalFilter.get()
   )
 </script>
 
@@ -46,7 +47,7 @@
     {:else}
       <Input
         placeholder={searchPlaceholder}
-        value={table.getState().globalFilter ?? ''}
+        value={table.atoms.globalFilter.get() ?? ''}
         oninput={(e) => table.setGlobalFilter(e.currentTarget.value)}
         class="h-8 w-[150px] lg:w-[250px]"
       />

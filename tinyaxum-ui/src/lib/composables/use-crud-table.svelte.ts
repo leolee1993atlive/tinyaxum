@@ -1,14 +1,19 @@
 import { untrack } from 'svelte'
-import { isApiClientNotifiedError } from '$lib/api/client.js'
-import { TABLE_DEFAULT_STATE } from '$lib/table-defaults.js'
+import { isApiClientNotifiedError } from '#lib/api/client.js'
+import { TABLE_DEFAULT_STATE } from '#lib/table-defaults.js'
+import {
+  appTableFeatures,
+  type AppTable,
+  type AppTableFeatures,
+} from '#lib/table-features.js'
 import type {
   ColumnDef,
   PaginationState,
+  RowData,
   SortingState,
-  Table,
-  Row,
+  Updater,
 } from '@tanstack/table-core'
-import { createTable, getCoreRowModel } from '@tanstack/table-core'
+import { constructTable } from '@tanstack/table-core'
 
 export type FetchPageResult<TRow> = {
   rows: TRow[]
@@ -23,15 +28,15 @@ export type FetchPageFn<TRow> = (params: {
   order?: 'asc' | 'desc'
 }) => Promise<FetchPageResult<TRow>>
 
-export type UseCrudTableOptions<TRow> = {
-  columns: ColumnDef<TRow>[]
+export type UseCrudTableOptions<TRow extends RowData> = {
+  columns: ColumnDef<AppTableFeatures, TRow>[]
   sortableIds: Set<string>
   fetchPage: FetchPageFn<TRow>
   initialPageSize?: number
 }
 
-export type UseCrudTableReturn<TRow> = {
-  table: Table<TRow>
+export type UseCrudTableReturn<TRow extends RowData> = {
+  table: AppTable<TRow>
   isLoading: boolean
   error: string | null
   globalFilter: string
@@ -41,7 +46,7 @@ export type UseCrudTableReturn<TRow> = {
   resetPagination: () => void
 }
 
-export function useCrudTable<TRow>(
+export function useCrudTable<TRow extends RowData>(
   options: UseCrudTableOptions<TRow>
 ): UseCrudTableReturn<TRow> {
   const { columns, sortableIds, fetchPage, initialPageSize = 10 } = options
@@ -104,27 +109,26 @@ export function useCrudTable<TRow>(
   }
 
   const table = $derived(
-    createTable({
+    constructTable({
+      features: appTableFeatures,
       data: tableRows,
       columns,
       state: { ...TABLE_DEFAULT_STATE, sorting, globalFilter, pagination },
-      onSortingChange: (updater) => {
+      onSortingChange: (updater: Updater<SortingState>) => {
         sorting = typeof updater === 'function' ? updater(sorting) : updater
       },
-      onGlobalFilterChange: (updater) => {
+      onGlobalFilterChange: (updater: Updater<string>) => {
         globalFilter =
           typeof updater === 'function' ? updater(globalFilter) : updater
       },
-      onPaginationChange: (updater) => {
+      onPaginationChange: (updater: Updater<PaginationState>) => {
         pagination =
           typeof updater === 'function' ? updater(pagination) : updater
       },
-      onStateChange: () => {},
       manualPagination: true,
       manualFiltering: true,
       manualSorting: true,
       rowCount: totalRowCount,
-      getCoreRowModel: getCoreRowModel(),
       renderFallbackValue: null,
     })
   )

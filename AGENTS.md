@@ -41,7 +41,7 @@ pnpm lint                          # Prettier check (no ESLint)
 ## Architecture
 
 ### Rust Backend
-- **Stack**: Rust 2024 · Axum 0.8 · Tokio · sea-orm 2.0.0-rc · tokio-cron-scheduler · JWT
+- **Stack**: Rust 2024 · Axum 0.8 · Tokio · sea-orm 2.0 · tokio-cron-scheduler · JWT
 - **Database support**: MySQL, PostgreSQL, or SQLite (`[db].db_type`). Default is SQLite
   at `data/tinyaxum.db`. Schema init is manual: `src/bin/init_db.rs` executes
   `db/migrations/<db_type>/0001_init.sql` and seeds `admin/admin123`.
@@ -59,21 +59,25 @@ pnpm lint                          # Prettier check (no ESLint)
 - **Static serving**: `config.server.static_dir` hosts the built frontend with SPA fallback.
 
 ### SvelteKit Frontend
-- **Stack**: Svelte 5 (runes) · TypeScript (strict) · Tailwind CSS v4 · shadcn-svelte (bits-ui)
-  · TanStack Table (`@tanstack/table-core`)
+- **Stack**: SvelteKit 3 · Svelte 5 (runes) · TypeScript (strict) · Tailwind CSS v4 ·
+  shadcn-svelte (bits-ui) · TanStack Table v9 (`@tanstack/table-core`)
 - **Svelte 5 runes**: `$props()`, `$bindable()`, `$state()`, `{@render children?.()}`
-- **Path aliases**: `$lib` → `src/lib`
-- **Auth**: cookie-based (`credentials: 'include'`). `ApiClient` in `$lib/api/client.ts`
+- **Path aliases**: `#lib` → `src/lib`
+- **Auth**: cookie-based (`credentials: 'include'`). `ApiClient` in `#lib/api/client.ts`
   queues requests and retries after 401.
 - **Routes**: `(app)/` (authenticated shell: users + settings), `(auth)/` (login),
   `(errors)/` (401/403/404/500/503).
 - **CRUD page pattern**: `useCrudTable` composable wraps TanStack Table with server-side
   pagination/sorting. `CrudPageState<TRow, TDialog>` tracks dialog state.
+- **TanStack Table v9**: register features once in `#lib/table-features.ts` via
+  `tableFeatures({...})`, then build instances with
+  `constructTable({ features: appTableFeatures, ... })`. Types flow through `AppTable<T>` /
+  `AppTableFeatures`; do not use v8 `createTable` or `get*RowModel` options.
 - **API modules**: export object literals (`usersApi = { list, create, ... }`) using the
   singleton `apiClient`.
 - **UI components**: `src/lib/components/ui/` (shadcn-svelte primitives),
   `src/lib/components/` (app components)
-- **cn() utility** (`$lib/utils.ts`): `twMerge(clsx(...))` for Tailwind class merging
+- **cn() utility** (`#lib/utils.ts`): `twMerge(clsx(...))` for Tailwind class merging
 
 ## Code Style — Rust
 
@@ -141,17 +145,17 @@ No semicolons · single quotes · 2-space indent · 80 print width · trailing c
 ### Import Order (auto-sorted by Prettier plugin)
 1. `svelte`, `svelte/*`
 2. `@sveltejs/*`
-3. `$lib/components/ui/*`
-4. `$lib/components/*`
-5. `$lib/*`
+3. `#lib/components/ui/*`
+4. `#lib/components/*`
+5. `#lib/*`
 6. Third-party modules
 7. Relative paths (`./`, `../`)
 
 ### Component Pattern (Svelte 5)
 ```svelte
 <script lang="ts">
-  import Component from '$lib/components/...'
-  import { cn, type WithElementRef } from '$lib/utils.js'
+  import Component from '#lib/components/...'
+  import { cn, type WithElementRef } from '#lib/utils.js'
 
   let { ref = $bindable(null), class: className, ...restProps }: Props = $props()
 </script>
@@ -164,7 +168,7 @@ No semicolons · single quotes · 2-space indent · 80 print width · trailing c
 - Use `$props()` destructuring (not `export let`).
 - Use `data-slot` attributes on wrapper elements for styling hooks.
 - Use `cn()` for conditional Tailwind classes.
-- Include `.js` extension on `$lib` imports: `import { cn } from '$lib/utils.js'`.
+- Include `.js` extension on `#lib` imports: `import { cn } from '#lib/utils.js'`.
 
 ### Naming
 - kebab-case for file names and component directories.
@@ -174,7 +178,7 @@ No semicolons · single quotes · 2-space indent · 80 print width · trailing c
 
 ## Key Conventions
 
-- **UI 容器三分法(前端)**: 表单新建/编辑 → `FormDrawer`(`$lib/components/FormDrawer.svelte`,
+- **UI 容器三分法(前端)**: 表单新建/编辑 → `FormDrawer`(`#lib/components/FormDrawer.svelte`,
   右侧全高抽屉,单列纵向表单,宽度默认 xl/576px,`class` 覆盖;Drawer 里不要做两列网格)。
   字段块统一 `flex flex-col gap-3`(label→控件),块间距由壳的 `space-y-4` 提供。
   删除等确认交互 → `ConfirmDialog`(AlertDialog,destructive 传 `destructive`);

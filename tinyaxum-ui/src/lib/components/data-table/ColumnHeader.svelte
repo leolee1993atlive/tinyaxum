@@ -1,16 +1,17 @@
-<script lang="ts" generics="TData, TValue">
-  import { Button } from '$lib/components/ui/button/index.js'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js'
-  import { cn } from '$lib/utils.js'
+<script lang="ts" generics="TData extends RowData, TValue extends CellData">
+  import { Button } from '#lib/components/ui/button/index.js'
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js'
+  import { cn } from '#lib/utils.js'
   import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from '@lucide/svelte'
-  import type { Column } from '@tanstack/table-core'
+  import type { CellData, Column, RowData } from '@tanstack/table-core'
+  import type { AppTableFeatures } from '#lib/table-features.js'
 
   let {
     column,
     title,
     class: className,
   }: {
-    column: Column<TData, TValue>
+    column: Column<AppTableFeatures, TData, TValue>
     title: string
     class?: string
   } = $props()
