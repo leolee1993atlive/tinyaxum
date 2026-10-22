@@ -1,0 +1,17 @@
+# Rust build artifacts
+/tinyaxum-rs/target/
+/tinyaxum-rs/logs/
+/tinyaxum-rs/data/
+/tinyaxum-rs/static/
+
+# Frontend build artifacts and dependencies
+/tinyaxum-ui/node_modules/
+/tinyaxum-ui/build/
+/tinyaxum-ui/.svelte-kit/
+
+# Local databases and logs
+*.db
+*.db-wal
+*.db-shm
+server.log
+backend.log

@@ -1,0 +1,78 @@
+[package]
+name = "hdata-analysis"
+version = "0.2.2"
+edition = "2024"
+publish = false
+default-run = "hdata-analysis"
+
+[features]
+default = []
+# DuckDB 统一链接官方预编译动态库（开发与生产同链路）：
+#   .cargo/config.toml [env] 自动指向 scripts/build/vendor/libduckdb-current
+#   （由 scripts/dev/setup-duckdb.ps1|.sh 准备），cargo run / build 直接可用。
+#   生产构建脚本显式设置 DUCKDB_LIB_DIR，优先生效。
+# bundled 自编译已被 build.rs 硬性拦截：自编 libduckdb 在 Windows 上存在
+# C++ 异常穿透 FFI abort 进程的致命缺陷，且 cargo clean 后要重编 20+ 分钟。
+duckdb-bundled = ["duckdb/bundled"]
+
+[dependencies]
+anyhow = "1.0"
+axum = "0.8.4"
+axum-extra = { version = "0.12.1", features = ["typed-header", "cookie"] }
+cookie = { version = "0.18", features = ["percent-encode"] }
+tower-http = { version = "0.6", features = ["trace", "fs", "cors"] }
+jsonwebtoken = { version = "10.2.0", features = ["rust_crypto"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.47", features = ["full"] }
+tokio-stream = "0.1"
+tokio-cron-scheduler = "0.15.1"
+tracing = { version = "0.1", features = ["attributes"] }
+tracing-appender = "0.2"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+rhai = "1.23.0"
+redis = { version = "0.32", features = ["aio", "tokio-comp"] }
+deadpool-redis = "0.22"
+# 关掉 default(默认 native-tls + 系统 libz)改 default-rustls,
+# 让二进制不依赖 libssl.so.3 / libz.so,Linux 部署免装 OpenSSL
+mysql = { version = "25.0", default-features = false, features = ["default-rustls"] }
+postgres = "0.19"
+thiserror = "2.0"
+config = "0.15.19"
+chrono = { version = "0.4", features = ["serde"] }
+validator = { version = "0.20", features = ["derive"] }
+bcrypt = "0.17"
+aes-gcm = "0.10"
+base64 = "0.22"
+rand = "0.9"
+percent-encoding = "2.3"
+toml = "1.1"
+toml_edit = "0.25"
+uuid = { version = "1.19.0", features = ["v7"] }
+regex = "1.12.2"
+async-stream = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "stream"] }
+futures-util = "0.3"
+rusqlite = { version = "0.32", features = ["bundled"] }
+sea-orm = { version = "2.0.0-rc", features = [
+    "sqlx-mysql",
+    "sqlx-postgres",
+    "sqlx-sqlite",
+    "runtime-tokio-rustls",
+    "macros",
+    "with-chrono",
+    "with-uuid",
+    "with-json",
+] }
+handlebars = "6"
+metrics = "0.24"
+metrics-exporter-prometheus = "0.16"
+
+# DuckDB:链接官方预编译 libduckdb(所有平台统一策略;官方扩展 .duckdb_extension
+# 与官方预编译 libduckdb ABI 兼容,bundled 自编的会 ABI 不匹配导致 LOAD segfault)。
+# 构建需设 DUCKDB_LIB_DIR/DUCKDB_INCLUDE_DIR,运行时需把 libduckdb 放在 exe 同目录
+# (或 LD_LIBRARY_PATH);build-windows.ps1 / build-linux.sh 已自动处理。
+duckdb = { version = "1.10503.1", features = ["r2d2"] }
+
+[dev-dependencies]
+tempfile = "3"

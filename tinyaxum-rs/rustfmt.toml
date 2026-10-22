@@ -1,0 +1,18 @@
+unstable_features = true
+
+edition = "2024"
+# 是否重新排序 imports
+reorder_imports = true
+
+# imports 的粒度级别
+# "Preserve" - 保持原样
+# "Crate" - 按 crate 分组
+# "Module" - 按模块分组
+# "Item" - 按项分组
+imports_granularity = "Crate"
+
+# 分组策略
+# "Preserve" - 保持原样
+# "StdExternalCrate" - std -> 外部 -> 内部
+group_imports = "StdExternalCrate"
+max_width = 80

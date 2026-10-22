@@ -1,0 +1,33 @@
+# 排除 IDE / Git
+.git
+.idea
+.vscode
+.opencode
+.claude
+.crush
+.sisyphus
+docs
+
+# 排除 node_modules (前端已宿主机构建，不需要)
+node_modules
+.svelte-kit
+
+# 排除 dist / staging (避免循环打包)
+dist
+scripts/build/staging
+scripts/build/vendor
+hdata-analysis-app
+
+# 排除大数据文件
+*.duckdb
+*.duckdb.wal
+
+# 排除真实配置
+hdata-analysis-rs/config.toml
+hdata-analysis-ui/.env
+hdata-analysis-ui/.env.*
+
+# 排除测试/临时产物
+hdata-analysis-rs/data
+hdata-analysis-rs/temp
+hdata-analysis-rs/db

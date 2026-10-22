@@ -1,0 +1,48 @@
+[server]
+port = @PORT@
+host = "localhost"
+static_dir = "web"
+
+[cors]
+# CORS 跨域白名单(未命中模式的 Origin 绝不反射 ACAO 头);同源部署可置 false
+enabled = true
+allowed_origin_patterns = ["http://localhost:*", "http://127.0.0.1:*"]
+
+[db]
+# 支持的 db_type: "mysql" | "postgres" | "sqlite"
+db_type = "@DB_TYPE@"
+url = "@DB_URL@"
+port = @DB_PORT@
+db_name = "@DB_NAME@"
+username = "@DB_USERNAME@"
+password = "@DB_PASSWORD@"
+
+[redis]
+url = "@REDIS_URL@"
+port = @REDIS_PORT@
+password = "@REDIS_PASSWORD@"
+db = @REDIS_DB@
+
+[jwt]
+secret = "@JWT_SECRET@"
+access_ttl = 3600
+refresh_ttl = 1800000
+
+[duckdb]
+# 传输任务每表 DuckDB 文件的根目录
+data_dir = "data"
+
+[log]
+# 日志文件目录(相对 exe 同目录)
+dir = "logs"
+# 日志文件名前缀,按天滚动: <prefix>.YYYY-MM-DD.log
+prefix = "hdata-analysis"
+
+[encryption]
+# 安装时随机生成,必须恰好 32 个字符。改动此值会导致已保存的数据源密码无法解密。
+key = "@ENCRYPTION_KEY@"
+
+[pool]
+db_max_connections = 10
+db_min_connections = 5
+redis_max_connections = 16
