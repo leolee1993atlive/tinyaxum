@@ -22,10 +22,12 @@ tinyaxum/
 
 ```bash
 cd tinyaxum-rs
+cp config.example.toml config.toml   # 按需修改 [jwt].secret / [encryption].key
 cargo run --bin init_db   # 在 data/tinyaxum.db 建表并播种 admin/admin123
 cargo run                 # http://127.0.0.1:3001
 ```
 
+- 本地 `config.toml` 已被 `.gitignore` 忽略；仓库只提交 `config.example.toml`，不要把真实密钥提交入库。
 - 默认元数据库为 SQLite（`config.toml` 的 `[db].db_name = "data/tinyaxum.db"`）。
 - 也支持 MySQL / PostgreSQL：改 `[db].db_type` 及连接字段后重新执行 `init_db`。
 - 健康检查：`GET /api/health`；登录：`POST /api/login`。

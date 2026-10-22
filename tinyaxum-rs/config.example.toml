@@ -1,0 +1,36 @@
+[server]
+port = 3001
+host = "0.0.0.0"
+static_dir = "static"
+
+[cors]
+# CORS 跨域白名单(未命中模式的 Origin 绝不反射 ACAO 头)
+# enabled=false 或整段缺省 = 关闭,任何响应都不带 CORS 头
+# 模式为整串锚定通配,`*` 可在 host 段或端口段,如 http://localhost:* 、https://*.example.com
+enabled = true
+allowed_origin_patterns = ["http://localhost:*", "http://127.0.0.1:*"]
+
+[db]
+# 支持的 db_type: "mysql" | "postgres" | "sqlite"
+# sqlite 仅使用 db_name 作为文件路径；mysql/postgres 另需 url/port/username/password
+db_type = "sqlite"
+db_name = "data/tinyaxum.db"
+
+[jwt]
+# 部署前务必替换为随机长密钥
+secret = "change-me-in-production"
+access_ttl = 3600
+refresh_ttl = 1800000
+
+[log]
+dir = "logs"
+prefix = "tinyaxum"
+
+[encryption]
+# AES-256 原始密钥，必须恰好 32 个字符。
+# 这里的值仅用于本地开箱即用；部署前务必替换，且不要提交真实密钥。
+key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[pool]
+db_max_connections = 10
+db_min_connections = 2

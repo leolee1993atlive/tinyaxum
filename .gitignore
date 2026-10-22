@@ -15,3 +15,7 @@
 *.db-shm
 server.log
 backend.log
+
+# Local runtime configuration (contains secrets); use config.example.toml
+/tinyaxum-rs/config.toml
+/tinyaxum-rs/config.sqlite.toml

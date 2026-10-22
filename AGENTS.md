@@ -191,9 +191,10 @@ No semicolons · single quotes · 2-space indent · 80 print width · trailing c
 - **API response shape**: `{ code: u16, message: string, data?: T }` via `R<T>`.
   Handlers return `Result<R<T>, AppError>`.
 - **Configuration**: `config.toml` at backend root with `[server]`, `[db]`, `[jwt]`,
-  `[encryption]`, `[log]`, `[pool]`, `[cors]` sections. `config.sqlite.toml` is the SQLite
-  variant. `[cors]` = optional Origin whitelist (`enabled` + `allowed_origin_patterns`
-  with `*` wildcards); disabled by default.
+  `[encryption]`, `[log]`, `[pool]`, `[cors]` sections. It is local-only and gitignored;
+  commit changes to `config.example.toml` instead, never real secrets. `config.sqlite.toml`
+  is a local SQLite variant and is also gitignored. `[cors]` = optional Origin whitelist
+  (`enabled` + `allowed_origin_patterns` with `*` wildcards); disabled by default.
 - **Tracing**: handlers and service methods annotated with `#[tracing::instrument]`;
   use `tracing::info!`/`error!` inside services.
 - **Static file serving**: `config.server.static_dir` hosts the built frontend; falls back
