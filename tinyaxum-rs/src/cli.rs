@@ -64,7 +64,7 @@ mod tests {
     use super::*;
 
     fn p(args: &[&str]) -> anyhow::Result<Cli> {
-        let mut v = vec!["hdata-analysis.exe".to_string()];
+        let mut v = vec!["tinyaxum.exe".to_string()];
         v.extend(args.iter().map(|s| s.to_string()));
         parse(v)
     }

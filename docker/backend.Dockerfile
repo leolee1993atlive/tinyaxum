@@ -7,19 +7,15 @@ FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates libssl3t64 libstdc++6 && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-COPY hdata-analysis-rs/target/release/hdata-analysis /app/hdata-analysis
-COPY hdata-analysis-ui/build                          /app/web
-# DuckDB 离线扩展(build-docker.sh 按 Cargo 的 duckdb 版本下载到 docker/extensions/)。
-# 必须放在 exe 同目录的 extensions/ 下,程序才会走离线 LOAD,免去容器联网安装。
-COPY docker/extensions                                /app/extensions
-# 固定 uid/gid = 10001:运行用户身份稳定,部署脚本(load-and-start.sh)
+COPY tinyaxum-rs/target/release/tinyaxum /app/tinyaxum
+COPY tinyaxum-ui/build                  /app/static
+# 固定 uid/gid = 10001:运行用户身份稳定,部署脚本
 # 才能把 bind mount 的 ./data ./logs chown 到这个确定的 uid。
-# 改这里务必同步 load-and-start.sh 里的 chown 目标。
-RUN groupadd --system --gid 10001 hdata \
+RUN groupadd --system --gid 10001 tinyaxum \
  && useradd --system --uid 10001 --gid 10001 \
-      --no-create-home --shell /usr/sbin/nologin hdata \
+      --no-create-home --shell /usr/sbin/nologin tinyaxum \
  && mkdir -p /app/data /app/logs \
- && chown -R hdata:hdata /app
-USER hdata
-EXPOSE 3000
-ENTRYPOINT ["/app/hdata-analysis"]
+ && chown -R tinyaxum:tinyaxum /app
+USER tinyaxum
+EXPOSE 3001
+ENTRYPOINT ["/app/tinyaxum"]

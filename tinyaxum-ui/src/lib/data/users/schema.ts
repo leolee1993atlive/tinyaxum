@@ -1,5 +1,5 @@
 // User types matching backend UserListVo, UserCreateBo, UserUpdateBo
-// Backend: hdata-analysis-rs/src/sys/user/model/user.rs
+// Backend: tinyaxum-rs/src/sys/user/model/user.rs
 
 // User status type for UI display
 export type UserStatus = 'active' | 'inactive' | 'invited' | 'suspended'

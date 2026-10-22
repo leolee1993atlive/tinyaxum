@@ -3,6 +3,7 @@ name = "tinyaxum"
 version = "0.1.0"
 edition = "2024"
 publish = false
+description = "TinyAxum — Axum + SvelteKit application skeleton"
 default-run = "tinyaxum"
 
 [dependencies]

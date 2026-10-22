@@ -15,19 +15,19 @@ node_modules
 # 排除 dist / staging (避免循环打包)
 dist
 scripts/build/staging
-scripts/build/vendor
-hdata-analysis-app
 
-# 排除大数据文件
-*.duckdb
-*.duckdb.wal
+# 排除本地数据库与日志
+*.db
+*.db-wal
+*.db-shm
 
 # 排除真实配置
-hdata-analysis-rs/config.toml
-hdata-analysis-ui/.env
-hdata-analysis-ui/.env.*
+tinyaxum-rs/config.toml
+tinyaxum-ui/.env
+tinyaxum-ui/.env.*
 
 # 排除测试/临时产物
-hdata-analysis-rs/data
-hdata-analysis-rs/temp
-hdata-analysis-rs/db
+tinyaxum-rs/data
+tinyaxum-rs/logs
+tinyaxum-rs/temp
+tinyaxum-rs/db

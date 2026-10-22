@@ -1,30 +1,13 @@
-name: hdata@SVC_SUFFIX@
+name: tinyaxum@SVC_SUFFIX@
 services:
   backend:
-    image: hdata-analysis@SVC_SUFFIX@:@VERSION@
-    container_name: hdata-analysis@SVC_SUFFIX@
+    image: tinyaxum@SVC_SUFFIX@:@VERSION@
+    container_name: tinyaxum@SVC_SUFFIX@
     pull_policy: never
     restart: unless-stopped
-    depends_on:
-      redis:
-        condition: service_healthy
     volumes:
       - ./config.toml:/app/config.toml:ro
       - ./data:/app/data
       - ./logs:/app/logs
     ports:
-      - "3000:3000"
-
-  # 同梱 Redis(仅作缓存,数据可丢失,故不持久化、不对宿主暴露端口)
-  # config.toml 的 [redis].url 在 Docker 部署下固定填 "redis"
-  redis:
-    image: redis:7-alpine
-    container_name: hdata-redis@SVC_SUFFIX@
-    pull_policy: never
-    restart: unless-stopped
-    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru", "--save", ""]
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
+      - "3001:3001"
