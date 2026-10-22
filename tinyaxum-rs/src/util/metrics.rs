@@ -49,44 +49,6 @@ impl Drop for RequestTimer {
     }
 }
 
-pub struct RedisOpTimer {
-    op: String,
-    start: Instant,
-}
-
-impl RedisOpTimer {
-    pub fn new(op: &str) -> Self {
-        Self {
-            op: op.to_string(),
-            start: Instant::now(),
-        }
-    }
-}
-
-impl Drop for RedisOpTimer {
-    fn drop(&mut self) {
-        record_redis_op(&self.op, self.start.elapsed().as_secs_f64());
-    }
-}
-
-pub struct DuckDbQueryTimer {
-    start: Instant,
-}
-
-impl DuckDbQueryTimer {
-    pub fn new() -> Self {
-        Self {
-            start: Instant::now(),
-        }
-    }
-}
-
-impl Drop for DuckDbQueryTimer {
-    fn drop(&mut self) {
-        record_duckdb_query_duration(self.start.elapsed().as_secs_f64());
-    }
-}
-
 pub fn record_http_request(method: &str, path: &str, status: u16) {
     counter!(
         "http_requests_total",
@@ -95,16 +57,4 @@ pub fn record_http_request(method: &str, path: &str, status: u16) {
         "status" => status.to_string(),
     )
     .increment(1);
-}
-
-pub fn record_redis_op(op: &str, duration_secs: f64) {
-    histogram!(
-        "redis_operation_duration_seconds",
-        "op" => op.to_string(),
-    )
-    .record(duration_secs);
-}
-
-pub fn record_duckdb_query_duration(duration_secs: f64) {
-    histogram!("duckdb_query_duration_seconds").record(duration_secs);
 }

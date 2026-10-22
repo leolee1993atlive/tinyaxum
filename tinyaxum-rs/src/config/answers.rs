@@ -8,7 +8,6 @@ use serde::Deserialize;
 pub struct Answers {
     pub server: AnswersServer,
     pub db: AnswersDb,
-    pub redis: AnswersRedis,
 }
 
 #[derive(Debug, Deserialize)]
@@ -28,15 +27,6 @@ pub struct AnswersDb {
     pub username: String,
     #[serde(default)]
     pub password: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct AnswersRedis {
-    pub url: String,
-    pub port: i32,
-    #[serde(default)]
-    pub password: String,
-    pub db: i32,
 }
 
 impl Answers {
@@ -61,15 +51,9 @@ port = 3000
 db_type = "mysql"
 url = "127.0.0.1"
 port = 3306
-db_name = "bl-hdata"
+db_name = "tinyaxum"
 username = "root"
 password = "P@ss"
-
-[redis]
-url = "localhost"
-port = 6379
-password = ""
-db = 1
 "#;
 
     #[test]
@@ -78,7 +62,6 @@ db = 1
         assert_eq!(a.server.port, 3000);
         assert_eq!(a.db.db_type, "mysql");
         assert_eq!(a.db.password, "P@ss");
-        assert_eq!(a.redis.db, 1);
     }
 
     #[test]
@@ -91,17 +74,12 @@ port = 3000
 [db]
 db_type = "sqlite"
 db_name = "data.db"
-
-[redis]
-url = "localhost"
-port = 6379
-db = 1
 "#,
         )
         .unwrap();
         assert_eq!(a.db.db_type, "sqlite");
         assert_eq!(a.db.url, "");
         assert_eq!(a.db.port, 0);
-        assert_eq!(a.redis.password, "");
+        assert_eq!(a.db.password, "");
     }
 }

@@ -23,7 +23,7 @@ fn random_ascii(len: usize) -> String {
 /// 按向导输入生成或更新 `config.toml`。
 ///
 /// - 文件不存在：由内嵌模板生成完整配置，密钥用 CSPRNG 现场生成。
-/// - 文件已存在：见 Task 6（只做外科更新）。
+/// - 文件已存在：只做外科更新。
 pub fn write_config(path: &Path, answers: &Answers) -> anyhow::Result<()> {
     let text = if path.exists() {
         update_existing(&std::fs::read_to_string(path)?, answers)?
@@ -87,10 +87,6 @@ fn render_fresh(answers: &Answers) -> anyhow::Result<String> {
         ("DB_NAME", esc(&answers.db.db_name)),
         ("DB_USERNAME", esc(&answers.db.username)),
         ("DB_PASSWORD", esc(&answers.db.password)),
-        ("REDIS_URL", esc(&answers.redis.url)),
-        ("REDIS_PORT", answers.redis.port.to_string()),
-        ("REDIS_PASSWORD", esc(&answers.redis.password)),
-        ("REDIS_DB", answers.redis.db.to_string()),
         ("JWT_SECRET", random_ascii(JWT_SECRET_LEN)),
         ("ENCRYPTION_KEY", random_ascii(ENCRYPTION_KEY_LEN)),
     ];
@@ -110,7 +106,7 @@ fn render_fresh(answers: &Answers) -> anyhow::Result<String> {
 /// 升级路径：只改向导收集的那几个键，其余一律不动。
 ///
 /// **绝不能碰 `[jwt].secret` 与 `[encryption].key`** —— 重写 encryption.key
-/// 会让库里所有已加密的数据源密码永久解不开。
+/// 会让库里所有已加密的数据永久解不开。
 fn update_existing(
     existing: &str,
     answers: &Answers,
@@ -127,11 +123,6 @@ fn update_existing(
     doc["db"]["db_name"] = value(answers.db.db_name.as_str());
     doc["db"]["username"] = value(answers.db.username.as_str());
     doc["db"]["password"] = value(answers.db.password.as_str());
-
-    doc["redis"]["url"] = value(answers.redis.url.as_str());
-    doc["redis"]["port"] = value(answers.redis.port as i64);
-    doc["redis"]["password"] = value(answers.redis.password.as_str());
-    doc["redis"]["db"] = value(answers.redis.db as i64);
 
     Ok(doc.to_string())
 }
@@ -153,15 +144,9 @@ port = 8080
 db_type = "mysql"
 url = "10.0.0.5"
 port = 3307
-db_name = "hdata"
+db_name = "tinyaxum"
 username = "app"
 password = "P@ss:w/rd"
-
-[redis]
-url = "10.0.0.6"
-port = 6380
-password = "rp"
-db = 2
 "#,
         )
         .unwrap()
@@ -223,14 +208,10 @@ db = 2
         assert_eq!(cfg.db.db_type, "mysql");
         assert_eq!(cfg.db.url, "10.0.0.5");
         assert_eq!(cfg.db.port, 3307);
-        assert_eq!(cfg.db.db_name, "hdata");
+        assert_eq!(cfg.db.db_name, "tinyaxum");
         assert_eq!(cfg.db.username, "app");
         assert_eq!(cfg.db.password, "P@ss:w/rd");
-        assert_eq!(cfg.redis.url, "10.0.0.6");
-        assert_eq!(cfg.redis.port, 6380);
-        assert_eq!(cfg.redis.password.as_deref(), Some("rp"));
-        assert_eq!(cfg.redis.db, 2);
-        assert_eq!(cfg.server.static_dir.as_deref(), Some("web"));
+        assert_eq!(cfg.server.static_dir.as_deref(), Some("static"));
     }
 
     #[test]
@@ -282,7 +263,7 @@ db = 2
 [server]
 port = 3000
 host = "localhost"
-static_dir = "web"
+static_dir = "static"
 
 [db]
 # 这行注释必须活下来
@@ -293,19 +274,10 @@ db_name = "old"
 username = "root"
 password = "old-pw"
 
-[redis]
-url = "localhost"
-port = 6379
-password = ""
-db = 1
-
 [jwt]
 secret = "EXISTING-JWT-SECRET-DO-NOT-TOUCH"
 access_ttl = 3600
 refresh_ttl = 1800000
-
-[duckdb]
-data_dir = "data"
 
 [encryption]
 key = "test-only-encryption-key-32chars"
@@ -313,7 +285,6 @@ key = "test-only-encryption-key-32chars"
 [pool]
 db_max_connections = 99
 db_min_connections = 7
-redis_max_connections = 33
 "#;
 
     fn write_existing_then_update() -> (tempfile::TempDir, std::path::PathBuf) {
@@ -330,7 +301,7 @@ redis_max_connections = 33
         let cfg = parse(&std::fs::read_to_string(&path).unwrap());
         assert_eq!(
             cfg.encryption.key, "test-only-encryption-key-32chars",
-            "升级重写了 encryption.key —— 这会让所有已加密的数据源密码永久解不开"
+            "升级重写了 encryption.key —— 这会让所有已加密的数据永久解不开"
         );
     }
 
@@ -347,7 +318,6 @@ redis_max_connections = 33
         let cfg = parse(&std::fs::read_to_string(&path).unwrap());
         assert_eq!(cfg.pool.db_max_connections, 99);
         assert_eq!(cfg.pool.db_min_connections, 7);
-        assert_eq!(cfg.pool.redis_max_connections, 33);
     }
 
     #[test]
@@ -367,13 +337,9 @@ redis_max_connections = 33
         assert_eq!(cfg.server.port, 8080);
         assert_eq!(cfg.db.url, "10.0.0.5");
         assert_eq!(cfg.db.port, 3307);
-        assert_eq!(cfg.db.db_name, "hdata");
+        assert_eq!(cfg.db.db_name, "tinyaxum");
         assert_eq!(cfg.db.username, "app");
         assert_eq!(cfg.db.password, "P@ss:w/rd");
-        assert_eq!(cfg.redis.url, "10.0.0.6");
-        assert_eq!(cfg.redis.port, 6380);
-        assert_eq!(cfg.redis.password.as_deref(), Some("rp"));
-        assert_eq!(cfg.redis.db, 2);
     }
 
     #[test]
@@ -381,23 +347,6 @@ redis_max_connections = 33
         let (_d, path) = write_existing_then_update();
         let cfg = parse(&std::fs::read_to_string(&path).unwrap());
         assert_eq!(cfg.server.host, "localhost");
-        assert_eq!(cfg.server.static_dir.as_deref(), Some("web"));
-    }
-
-    #[test]
-    fn upgrade_empty_redis_password_stays_consistent_with_fresh() {
-        // 向导里 Redis 密码留空 = 空字符串。外科更新应写出 `password = ""`,
-        // AppConfig 解析为 Some("") —— 与全新安装完全一致(app.rs 的 match 把
-        // Some("") 当无密码处理)。守住「空密码不会变成 None 或反序列化失败」,
-        // 因为 RedisConfig.password 是 Option<String>,边界容易写歪。
-        let mut ans = answers();
-        ans.redis.password = String::new();
-        let dir = tempfile::tempdir().unwrap();
-        let path = dir.path().join("config.toml");
-        std::fs::write(&path, EXISTING).unwrap();
-        write_config(&path, &ans).unwrap();
-
-        let cfg = parse(&std::fs::read_to_string(&path).unwrap());
-        assert_eq!(cfg.redis.password.as_deref(), Some(""));
+        assert_eq!(cfg.server.static_dir.as_deref(), Some("static"));
     }
 }

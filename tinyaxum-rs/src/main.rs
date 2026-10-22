@@ -1,6 +1,5 @@
 mod app;
 mod auth;
-mod biz;
 mod cli;
 mod common;
 mod config;
@@ -18,23 +17,8 @@ use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::{
-    auth::route::auth_route::auth_route,
-    biz::{
-        ai_chat::route::ai_chat_route::ai_chat_route,
-        ai_provider::route::ai_provider_route::ai_provider_route,
-        dashboard::route::dashboard_route::dashboard_route,
-        datasource::route::data_source_route::data_source_route,
-        httpapi::route::http_api_route::{http_api_route, public_route},
-        sqlquery::route::{
-            sql_query_route::sql_query_route,
-            sql_snippet_route::sql_snippet_route,
-        },
-        transtask::route::trans_task_route::trans_task_route,
-    },
-    common::handler::module_option_route::module_option_route,
-    config::config::AppConfig,
-    middleware::auth::auth,
-    sys::user::route::user_route::user_route,
+    auth::route::auth_route::auth_route, config::config::AppConfig,
+    middleware::auth::auth, sys::user::route::user_route::user_route,
 };
 
 fn init_tracing(log_config: &crate::config::config::LogConfig) {
@@ -97,16 +81,6 @@ async fn main() -> anyhow::Result<()> {
     let protected_routes = Router::new()
         .merge(auth_route())
         .merge(user_route())
-        .merge(data_source_route())
-        .merge(trans_task_route())
-        .merge(sql_snippet_route())
-        .merge(sql_query_route())
-        .merge(dashboard_route())
-        .merge(http_api_route())
-        .merge(public_route())
-        .merge(ai_provider_route())
-        .merge(ai_chat_route())
-        .merge(module_option_route())
         .route_layer(from_fn_with_state(app_state.clone(), auth));
 
     let mut app = Router::new().nest(

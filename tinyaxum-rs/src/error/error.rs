@@ -32,14 +32,8 @@ pub enum AppError {
     #[error("内部错误: {0}")]
     Internal(String),
 
-    #[error("禁止访问: {0}")]
-    Forbidden(String),
-
     #[error("错误请求: {0}")]
     BadRequest(String),
-
-    #[error("资源冲突: {0}")]
-    Conflict(String),
 }
 
 impl From<validator::ValidationErrors> for AppError {
@@ -96,17 +90,9 @@ impl IntoResponse for AppError {
                 tracing::error!(variant = "Internal", error = %e, "应用错误: 内部错误");
                 (StatusCode::INTERNAL_SERVER_ERROR, e.clone())
             }
-            AppError::Forbidden(e) => {
-                tracing::warn!(variant = "Forbidden", error = %e, "应用错误: 禁止访问");
-                (StatusCode::FORBIDDEN, e.clone())
-            }
             AppError::BadRequest(e) => {
                 tracing::warn!(variant = "BadRequest", error = %e, "应用错误: 错误请求");
                 (StatusCode::BAD_REQUEST, e.clone())
-            }
-            AppError::Conflict(e) => {
-                tracing::warn!(variant = "Conflict", error = %e, "应用错误: 资源冲突");
-                (StatusCode::CONFLICT, e.clone())
             }
         };
         let body =
@@ -126,9 +112,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_db_error_response_body_is_translated() {
-        let db_err = sea_orm::DbErr::Custom(
-            "Binder Error: Cannot compare values of type TIMESTAMP and type INTEGER".to_string()
-        );
+        let db_err = sea_orm::DbErr::Custom("boom".to_string());
         let app_err = AppError::DbError(db_err);
         let response = app_err.into_response();
         assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
@@ -136,10 +120,9 @@ mod tests {
         let body_bytes =
             to_bytes(response.into_body(), usize::MAX).await.unwrap();
         let body_str = String::from_utf8(body_bytes.to_vec()).unwrap();
-        // R<()> 序列化后是 JSON；只断言包含中文标题即可
         assert!(
-            body_str.contains("绑定错误"),
-            "response body should contain translated title, got: {}",
+            body_str.contains("boom"),
+            "response body should contain the original message, got: {}",
             body_str,
         );
     }

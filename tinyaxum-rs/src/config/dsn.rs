@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 use percent_encoding::{AsciiSet, NON_ALPHANUMERIC, utf8_percent_encode};
 
-use crate::config::config::{DbConfig, RedisConfig};
+use crate::config::config::DbConfig;
 
 /// DSN 的 userinfo 段需要转义的字符集。保守起见：非字母数字一律转义，
 /// 只放行 URL 中无歧义的 `-` `.` `_` `~`（RFC 3986 unreserved）。
@@ -67,20 +67,6 @@ pub fn build_db_dsn(db: &DbConfig) -> anyhow::Result<String> {
     Ok(dsn)
 }
 
-/// 由 [redis] 配置拼出 deadpool-redis 用的连接 URL。
-pub fn build_redis_url(redis: &RedisConfig) -> String {
-    match redis.password.as_deref() {
-        Some(password) if !password.is_empty() => format!(
-            "redis://:{}@{}:{}/{}",
-            enc(password),
-            redis.url,
-            redis.port,
-            redis.db
-        ),
-        _ => format!("redis://{}:{}/{}", redis.url, redis.port, redis.db),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -90,7 +76,7 @@ mod tests {
             db_type: db_type.to_string(),
             url: "127.0.0.1".to_string(),
             port: 3306,
-            db_name: "bl-hdata".to_string(),
+            db_name: "tinyaxum".to_string(),
             username: "root".to_string(),
             password: password.to_string(),
         }
@@ -101,14 +87,14 @@ mod tests {
         let dsn = build_db_dsn(&db("mysql", "root")).unwrap();
         assert_eq!(
             dsn,
-            "mysql://root:root@127.0.0.1:3306/bl-hdata?tcp_keepalive=30000"
+            "mysql://root:root@127.0.0.1:3306/tinyaxum?tcp_keepalive=30000"
         );
     }
 
     #[test]
     fn postgres_dsn_has_keepalive() {
         let dsn = build_db_dsn(&db("postgres", "pw")).unwrap();
-        assert!(dsn.starts_with("postgres://root:pw@127.0.0.1:3306/bl-hdata?"));
+        assert!(dsn.starts_with("postgres://root:pw@127.0.0.1:3306/tinyaxum?"));
         assert!(dsn.contains("keepalives=1"));
     }
 
@@ -140,22 +126,5 @@ mod tests {
     #[test]
     fn unsupported_db_type_errors() {
         assert!(build_db_dsn(&db("oracle", "x")).is_err());
-    }
-
-    #[test]
-    fn redis_url_with_and_without_password() {
-        let mut r = RedisConfig {
-            url: "localhost".to_string(),
-            port: 6379,
-            password: None,
-            db: 1,
-        };
-        assert_eq!(build_redis_url(&r), "redis://localhost:6379/1");
-
-        r.password = Some("".to_string());
-        assert_eq!(build_redis_url(&r), "redis://localhost:6379/1");
-
-        r.password = Some("p@ss".to_string());
-        assert_eq!(build_redis_url(&r), "redis://:p%40ss@localhost:6379/1");
     }
 }

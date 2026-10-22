@@ -4,16 +4,12 @@ use serde::Deserialize;
 pub struct AppConfig {
     pub server: ServerConfig,
     pub db: DbConfig,
-    pub redis: RedisConfig,
     pub jwt: JwtConfig,
-    pub duckdb: DuckdbConfig,
     pub encryption: EncryptionConfig,
     #[serde(default)]
     pub log: LogConfig,
     #[serde(default)]
     pub pool: PoolConfig,
-    #[serde(default)]
-    pub dashboard_cache: DashboardCacheConfig,
     #[serde(default)]
     pub cors: super::cors::CorsConfig,
 }
@@ -47,36 +43,17 @@ pub struct DbConfig {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct RedisConfig {
-    pub url: String,
-    pub port: i32,
-    pub password: Option<String>,
-    pub db: i32,
-}
-
-#[derive(Debug, Deserialize)]
 pub struct JwtConfig {
     pub secret: String,
     /// Access token 有效期（秒）
     pub access_ttl: i64,
     /// Refresh token 有效期（秒）。
     ///
-    /// **安全取舍说明**：Task 3 移除了 Redis token 存储，refresh token
-    /// 不再具备服务端撤销能力。泄露的 refresh token 在整个 TTL 内可被
-    /// 反复使用来换取新的 access token。建议将此值收紧至 7-14 天（
-    /// 604800-1209600 秒），并在 config.toml 中显式配置。
+    /// **安全取舍说明**：refresh token 不落在服务端存储，因此不具备
+    /// 服务端撤销能力。泄露的 refresh token 在整个 TTL 内可被反复使用
+    /// 来换取新的 access token。建议将此值收紧至 7-14 天
+    /// （604800-1209600 秒），并在 config.toml 中显式配置。
     pub refresh_ttl: i64,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct DuckdbConfig {
-    /// 传输任务每表 DuckDB 文件根目录
-    #[serde(default = "default_data_dir")]
-    pub data_dir: String,
-}
-
-fn default_data_dir() -> String {
-    "data".to_string()
 }
 
 #[derive(Debug, Deserialize)]
@@ -106,7 +83,7 @@ fn default_log_dir() -> String {
 }
 
 fn default_log_prefix() -> String {
-    "hdata-analysis".to_string()
+    "tinyaxum".to_string()
 }
 
 #[derive(Debug, Deserialize)]
@@ -115,8 +92,6 @@ pub struct PoolConfig {
     pub db_max_connections: u32,
     #[serde(default = "default_db_min_conn")]
     pub db_min_connections: u32,
-    #[serde(default = "default_redis_max_conn")]
-    pub redis_max_connections: usize,
 }
 
 impl Default for PoolConfig {
@@ -124,7 +99,6 @@ impl Default for PoolConfig {
         Self {
             db_max_connections: default_db_max_conn(),
             db_min_connections: default_db_min_conn(),
-            redis_max_connections: default_redis_max_conn(),
         }
     }
 }
@@ -134,34 +108,6 @@ fn default_db_max_conn() -> u32 {
 }
 fn default_db_min_conn() -> u32 {
     5
-}
-fn default_redis_max_conn() -> usize {
-    16
-}
-
-#[derive(Debug, Deserialize)]
-pub struct DashboardCacheConfig {
-    #[serde(default = "default_dash_ttl_days")]
-    pub ttl_days: u64,
-    #[serde(default = "default_dash_max_rows")]
-    pub max_rows: i64,
-}
-
-impl Default for DashboardCacheConfig {
-    fn default() -> Self {
-        Self {
-            ttl_days: default_dash_ttl_days(),
-            max_rows: default_dash_max_rows(),
-        }
-    }
-}
-
-fn default_dash_ttl_days() -> u64 {
-    30
-}
-
-fn default_dash_max_rows() -> i64 {
-    2000
 }
 
 #[cfg(test)]
@@ -179,18 +125,10 @@ port = 3000
 db_type = "sqlite"
 db_name = "data.db"
 
-[redis]
-url = "localhost"
-port = 6379
-db = 1
-
 [jwt]
 secret = "s"
 access_ttl = 3600
 refresh_ttl = 1800000
-
-[duckdb]
-data_dir = "data"
 
 [encryption]
 key = "0123456789abcdef0123456789abcdef"
@@ -210,7 +148,6 @@ key = "0123456789abcdef0123456789abcdef"
         let p = PoolConfig::default();
         assert_eq!(p.db_max_connections, 10);
         assert_eq!(p.db_min_connections, 5);
-        assert_eq!(p.redis_max_connections, 16);
     }
 
     #[test]
@@ -218,6 +155,11 @@ key = "0123456789abcdef0123456789abcdef"
         let cfg = parse(MINIMAL);
         assert_eq!(cfg.pool.db_max_connections, 10);
         assert_eq!(cfg.pool.db_min_connections, 5);
-        assert_eq!(cfg.pool.redis_max_connections, 16);
+    }
+
+    #[test]
+    fn log_prefix_defaults_to_tinyaxum() {
+        let cfg = parse(MINIMAL);
+        assert_eq!(cfg.log.prefix, "tinyaxum");
     }
 }

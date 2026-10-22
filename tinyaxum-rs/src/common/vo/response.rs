@@ -35,10 +35,6 @@ impl<T> R<T> {
         R::Success(ApiResponse::ok_with_data(data))
     }
 
-    pub fn ok_with_data_and_message(data: T, message: String) -> Self {
-        R::Success(ApiResponse::ok_with_data_and_message(data, message))
-    }
-
     pub fn error_with_code_and_message(code: u16, message: String) -> Self {
         R::Error(ApiResponse::<()>::error_with_code_and_message(
             code, message,
@@ -67,17 +63,6 @@ impl<T> ApiResponse<T> {
         ApiResponse {
             code: 200,
             message: "成功".to_string(),
-            data: Some(data),
-        }
-    }
-
-    pub fn ok_with_data_and_message(
-        data: T,
-        message: String,
-    ) -> ApiResponse<T> {
-        ApiResponse {
-            code: 200,
-            message,
             data: Some(data),
         }
     }
