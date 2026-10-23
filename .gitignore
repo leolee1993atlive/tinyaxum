@@ -19,3 +19,28 @@ backend.log
 # Local runtime configuration (contains secrets); use config.example.toml
 /tinyaxum-rs/config.toml
 /tinyaxum-rs/config.sqlite.toml
+
+# AI agent / assistant local state and skills
+/.commandcode/
+/.claude/
+/.codex/
+/.cursor/
+/.windsurf/
+/.continue/
+/.aider/
+/.gemini/
+/.copilot/
+/.agents/
+/.agent/
+/.augment/
+/.amazonq/
+/.cline/
+/.roo/
+/.kilocode/
+/.opencode/
+/.qwen/
+/.trae/
+/.kiro/
+/.factory/
+/.codebuddy/
+/.iflow/
