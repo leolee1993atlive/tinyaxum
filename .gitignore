@@ -44,3 +44,4 @@ backend.log
 /.factory/
 /.codebuddy/
 /.iflow/
+/.zcode/
