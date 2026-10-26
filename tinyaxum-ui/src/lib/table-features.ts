@@ -9,6 +9,7 @@ import {
   tableFeatures,
 } from '@tanstack/table-core'
 import type { RowData, Table } from '@tanstack/table-core'
+import { storeReactivityBindings } from '@tanstack/table-core/store-reactivity-bindings'
 
 /**
  * The table features actually used by the CRUD table stack.
@@ -17,6 +18,7 @@ import type { RowData, Table } from '@tanstack/table-core'
  * their keys define which state slices and APIs exist on `table`/`column`.
  */
 export const appTableFeatures = tableFeatures({
+  coreReactivityFeature: storeReactivityBindings(),
   columnFacetingFeature,
   columnFilteringFeature,
   columnVisibilityFeature,
